@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.5/dist/flowbite.min.css" />
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('css')
 
     <title>Stable Diffusion API Playground</title>
 </head>
 <body>
-    {{-- @include('header') --}}
 
     @yield('content')
 
@@ -26,7 +25,15 @@
     <!-- End Full Loader -->
 
     @include('footer')
+    @include('toast')
 
+    @if(session('message'))
+    <script>
+        setTimeout(function() {
+            popToast("{{ session('message_type') }}", "{{ session('message') }}");
+        }, 60);
+    </script>
+    @endif
 
     <script src="https://unpkg.com/flowbite@1.5.5/dist/flowbite.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

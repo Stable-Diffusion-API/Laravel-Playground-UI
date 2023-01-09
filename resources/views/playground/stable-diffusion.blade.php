@@ -264,7 +264,10 @@
            error: function(response, status, message) {
             document.getElementById('fullscreenLoader').classList.add('hidden');
 
-            var message = response.responseJSON.message == "Unauthenticated." ? "You need to be logged in to use the playground" : response.responseJSON.message ;
+            var message = response.responseJSON.message ;
+
+            console.log(message);
+
                 setTimeout(function() {
                   popToast("danger", message);
                 }, 5);
