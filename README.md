@@ -6,7 +6,7 @@ Stable Diffusion Playground UI in Laravel PHP
 
 Clone the Project
 ```
-git clone 
+git clone https://github.com/Stable-Diffusion-API/Laravel-Playground-UI-New.git
 ```
 
 Install Dependencies 
