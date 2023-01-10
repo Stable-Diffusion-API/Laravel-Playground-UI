@@ -58,7 +58,7 @@
             <a href="?channel=dreambooth" class="inline-block p-3 {{$channel =="dreambooth" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/camera.svg" alt=""></a>
         </li>
         <li class="w-full">
-            <a href="?channel=dreambooth-training" class="inline-block p-3  {{$channel =="reambooth-training" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/compass.svg" alt=""></a>
+            <a href="?channel=dreambooth-training" class="inline-block p-3  {{$channel =="dreambooth-training" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/compass.svg" alt=""></a>
         </li>
         <li class="w-full">
             <a href="?channel=upload-image" class="inline-block p-3  {{$channel =="upload-image" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/history.svg" alt=""></a>
