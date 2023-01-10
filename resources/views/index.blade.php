@@ -21,24 +21,13 @@
                         <a href="?channel=dreambooth-training" class="inline-block p-4 w-full  {{$channel =="dreambooth-training" ? 'bg-gray-100':'bg-white'}} hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none">Dreambooth Training</a>
                     </li>
                     <li class="w-full">
-                        <a href="?channel=upload" class="inline-block p-4 w-full  {{$channel =="upload" ? 'bg-gray-100':'bg-white'}} hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none">Image Upload</a>
+                        <a href="?channel=upload-image" class="inline-block p-4 w-full  {{$channel =="upload" ? 'bg-gray-100':'bg-white'}} hover:text-gray-700 hover:bg-gray-50 focus:ring-4 focus:ring-blue-300 focus:outline-none">Image Upload</a>
                     </li>
                 </ul>
-
             </div>
 
 
-            <ul class="fixed bottom-0 mx-auto md:hidden bg-white flex text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow w-full">
-                <li class="w-full">
-                    <a href="?channel=stable-diffusion" class="inline-block p-3  {{$channel =="stable-diffusion" ? 'bg-gray-100':'bg-white'}} rounded-l-lg focus:outline-none "><img class="w-10" src="/images/arhive.svg" alt=""></a>
-                </li>
-                <li class="w-full">
-                    <a href="?channel=dreambooth" class="inline-block p-3 {{$channel =="dreambooth" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/camera.svg" alt=""></a>
-                </li>
-                <li class="w-full">
-                    <a href="?channel=dreambooth-training" class="inline-block p-3  {{$channel =="dreambooth-training" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/history.svg" alt=""></a>
-                </li>
-            </ul>
+
         </div>
 
 
@@ -49,19 +38,33 @@
          @include('playground.dreambooth')
       @elseif ($channel == "dreambooth-training")
          @include('playground.dreambooth-training')
-      @elseif ($channel == "upload")
+      @elseif ($channel == "upload-image")
       @include('playground.upload')
       @else
         @include('playground.stable-diffusion')
       @endif
 
 
-
-
             <div id="resultData" class="hidden mx-auto py-8 content-center justify-center">
 
             </div>
     </div>
+
+    <ul id="menu" class="fixed bottom-0 mx-auto md:hidden bg-white flex text-sm font-medium text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow w-full">
+        <li class="w-full">
+            <a href="?channel=stable-diffusion" class="inline-block p-3  {{$channel =="stable-diffusion" ? 'bg-gray-100':'bg-white'}} rounded-l-lg focus:outline-none "><img class="w-10" src="/images/arhive.svg" alt=""></a>
+        </li>
+        <li class="w-full">
+            <a href="?channel=dreambooth" class="inline-block p-3 {{$channel =="dreambooth" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/camera.svg" alt=""></a>
+        </li>
+        <li class="w-full">
+            <a href="?channel=dreambooth-training" class="inline-block p-3  {{$channel =="reambooth-training" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/compass.svg" alt=""></a>
+        </li>
+        <li class="w-full">
+            <a href="?channel=upload-image" class="inline-block p-3  {{$channel =="upload-image" ? 'bg-gray-100':'bg-white'}}"><img class="w-10" src="/images/history.svg" alt=""></a>
+        </li>
+
+    </ul>
 
 </section>
 @endsection

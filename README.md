@@ -1,12 +1,15 @@
 # Laravel-Playground-UI
 Stable Diffusion Playground UI in Laravel PHP
 
+![alt text](https://stablediffusionapi.com//storage/generations/playground.jpeg)
+![alt text](https://stablediffusionapi.com//storage/generations/playground1.jpeg)
+
 
 ## How to Setup 
 
 Clone the Project
 ```
-git clone https://github.com/Stable-Diffusion-API/Laravel-Playground-UI-New.git
+git clone https://github.com/Stable-Diffusion-API/Laravel-Playground-UI.git
 ```
 
 Install Dependencies 

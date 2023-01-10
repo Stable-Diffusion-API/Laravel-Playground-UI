@@ -34,7 +34,7 @@
 
             <select name="base_model_id" id="base_model_id" class="p-3 w-full rounded-xl border-gray-300 focus:border-blue-100" >
                 <option class="p-5" value="">Select Model Base ID</option>
-                <option class="p-5" value="">Stable Diffusion V1.5</option>
+                {{-- <option class="p-5" value="">Stable Diffusion V1.5</option> --}}
 
             </select>
 
@@ -143,7 +143,6 @@
 
         document.getElementById('fullscreenLoaderMessage').innerText = 'Training...';
         document.getElementById('fullscreenLoader').classList.remove('hidden');
-        document.getElementById('subscriptionError').classList.add('hidden')
 
         $.ajax({
            type:'POST',
@@ -167,7 +166,7 @@
 
                     var imageTag = '<img class="rounded-xl" src=" '+response.image+' " width=" ' +response.width+ ' " height="'+ response.height+' ">';
 
-                    $("#resultData").append(imageTag);
+                    $("#resultData").html(imageTag);
 
                     setTimeout(function() {
                       popToast("success", response.message);
@@ -177,12 +176,10 @@
            },
            error: function(response, status, message) {
             document.getElementById('fullscreenLoader').classList.add('hidden');
-            var message = response.responseJSON.message == "Unauthenticated." ? "You need to be logged in to use the playground" : response.responseJSON.message ;
+            var message = response.responseJSON.message;
                 setTimeout(function() {
                   popToast("danger", message);
                 }, 5);
-
-                errorTabForSubscription(message);
           },
 
         });
@@ -192,12 +189,45 @@
 </script>
 
 <script>
-     function errorTabForSubscription(message){
-        if (message == "Your monthly limit exceeded, upgrade subscription now on stablediffusionapi.com") {
-            document.getElementById('subscriptionError').classList.remove('hidden');
-            document.getElementById('textError').innerText(message);
+
+    $("#base_model_id").change(function () {
+
+    var  _token = $("input[name='_token']").val();
+
+    console.log('wcw');
+
+    $.ajax({
+        dataType: 'json',
+        type: 'POST',
+        url: '{{ route("public-models")}}',
+        data: {
+            _token : _token
+        },
+
+        success: function (data) {
+
+            if (data) {
+                // $("#model_id").empty();
+                $.each(data, function (key, value) {
+
+                    $("#base_model_id").append('<option value="' + value.model_id + '">' + value.model_id +
+                        '</option>');
+                });
+            }
+        },
+
+        error: function () {
+
+            console.log('fail');
+            // alert("fail");
+
         }
-    }
-</script>
+
+    });
+
+    });
+
+    </script>
+
 
 @endpush

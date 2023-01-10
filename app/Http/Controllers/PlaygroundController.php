@@ -15,7 +15,7 @@ class PlaygroundController extends Controller
 
     public function __construct()
     {
-        $this->httpClient = Http::baseUrl(config('services.stable_diffusion_api.baseurl'));
+        $this->httpClient = Http::baseUrl(config('services.stable_diffusion_api.baseurl'))->withHeaders(['Content-Type' => 'application/json']);
 
         $this->apiKey = config('services.stable_diffusion_api.key');
     }
@@ -108,6 +108,12 @@ class PlaygroundController extends Controller
 
     public function imageUpload(Request $request)
     {
+
+
+        if (empty($request->image)) {
+            return response()->json(["status" => "error", "message" => "kindly upload image"], 400);
+         }
+
         $data = [
             "key" => $this->apiKey,
             "image" => $request->image,
@@ -118,6 +124,36 @@ class PlaygroundController extends Controller
         $response = json_decode($result, true);
 
         info($response);
+        if (!array_key_exists('status', $response)) {
+            return response()->json(["status" => "error", "message" => "ops, request failed, try again later"], 400);
+        }
+
+        if ($response['status'] == 'error') {
+            if (isset($response['messege']) && !is_array($response['messege'])) {
+                $message = $response['messege'];
+            } elseif (isset($response['message']) && !is_array($response['message'])) {
+                $message = $response['message'];
+            }else {
+                $message = "pass the appropriate parameters";
+            }
+            return response()->json(["status" => "error", "message" => $message], 400);
+        }
+
+        return response()->json(["status" => "success", "message" => $response['messege']], 200);
+    }
+
+
+    public function publicModels()
+    {
+        $data = [
+            "key" => $this->apiKey
+        ];
+
+        $result = Http::post("https://stablediffusionapi.com/api/v4/dreambooth/model_list", $data);
+        $response = json_decode($result, true);
+
+         return response()->json($response, 200);
+
     }
 
 

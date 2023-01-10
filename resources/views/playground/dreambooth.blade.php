@@ -20,11 +20,8 @@
 
         <input type="text"  id="fetch_image" name="response_id" class="hidden p-3 w-full rounded-xl px-6 text-sm border-gray-300 focus:border-blue-100" placeholder="Enter Response ID">
         <input type="text" id="negative_prompt" name="negative_prompt" class="p-3 w-full md:w-2/3 md:py-3 my-3 md:my-0 rounded-xl md:px-6 border-gray-300 focus:border-blue-100" placeholder="Negative Prompt">
-    <select name="model_id" id="model_id" class="p-3 w-full mx-3 rounded-xl md:w-1/3 border-gray-300 focus:border-blue-100" required >
-        <option class="p-5" value="" class="text-sm">Select Model ID</option>
-
-        <option class="p-5" value="">Call API</option>
-
+    <select name="model_id" id="model_id" class="p-3 w-full mx-3 rounded-xl md:w-1/3 border-gray-300 focus:border-blue-100" >
+        <option value="">Select Model ID</option>
     </select>
 
         <select name="endpoint" id="endpoint" class="p-3 w-full mx-3 md:w-1/3 rounded-xl border-gray-300 focus:border-blue-100" id="">
@@ -187,7 +184,7 @@
 
                     var imageTag = '<img class="rounded-xl" src=" '+response.image+' " width=" ' +response.width+ ' " height="'+ response.height+' ">';
 
-                    $("#resultData").append(imageTag);
+                    $("#resultData").html(imageTag);
 
                     setTimeout(function() {
                       popToast("success", response.message);
@@ -272,5 +269,51 @@
     });
 
 </script>
+
+
+<script>
+
+$("#model_id").change(function () {
+
+    var  _token = $("input[name='_token']").val()
+console.log('wcw');
+
+$.ajax({
+    dataType: 'json',
+    type: 'POST',
+    url: '{{ route("public-models")}}',
+    data: {
+        _token : _token
+    },
+
+    success: function (data) {
+
+         console.log(data);
+
+        if (data) {
+            // $("#model_id").empty();
+            // $("#model_id").append('<option>Select Model ID</option>');
+
+            $.each(data, function (key, value) {
+
+                $("#model_id").append('<option value="' + value.model_id + '">' + value.model_id +
+                    '</option>');
+            });
+        }
+    },
+
+    error: function () {
+
+        console.log('fail');
+        // alert("fail");
+
+    }
+
+});
+
+});
+
+</script>
+
 
 @endpush

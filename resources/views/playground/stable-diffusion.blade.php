@@ -189,7 +189,7 @@
 
                     var imageTag = '<img class="rounded-xl" src=" '+response.image+' " width=" ' +response.width+ ' " height="'+ response.height+' ">';
 
-                    $("#resultData").append(imageTag);
+                    $("#resultData").html(imageTag);
 
                     setTimeout(function() {
                       popToast("success", response.message);

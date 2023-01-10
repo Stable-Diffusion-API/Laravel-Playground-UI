@@ -11,6 +11,7 @@
   margin-right: 10px;
   vertical-align: middle;
 }
+
     </style>
 @endpush
 <h3 class="p-3 text-2xl text-center">Upload </h3>
@@ -29,18 +30,22 @@
                             d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                     <span class="font-medium text-gray-600">
-                        Drop files to Attach,
-                        <span id="browse" class="text-blue-600 underline">browse</span>
+                        Drop files Here OR
+                        <span id="browse" class="text-blue-600 underline">
+                            <label for="file-ip-1">Browse</label>
+                            <input type="file" class="hidden" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
+
                     </span>
                 </span>
-                <input accept="image/*" id="image" type="file" name="file_upload" class="hidden">
-                <input type="hidden" id="imageData" value="">
+
+
             </label>
             <div class="flex flex-col justify-center items-center" id="gallery"></div>
+            <div class="flex flex-col justify-center items-center p-2"><img class="hidden w-1/6"  id="file-ip-1-preview"></div>
 
         </div>
 
-        <div id="generate"  class="w-full my-4 items-center justify-center mx-auto mb-3 space-y-4  sm:space-y-0">
+        <div id="generate"  class="w-full flex my-4 items-center justify-center mx-auto mb-3 space-y-4  sm:space-y-0">
             <button type="submit" id="submitForm" class="bg-blue-600 py-5 px-9 text-sm font-medium text-center text-white rounded-2xl border cursor-pointer">Upload</button>
          </div>
     </form>
@@ -57,21 +62,43 @@
 
 <script type="text/javascript">
 
+
+
     $("#submitForm").click(function(e){
 
         e.preventDefault();
 
-       var  _token = $("input[name='_token']").val()
+        var payload = {};
 
-        var payload  = {
+        var  _token = $("input[name='_token']").val();
+
+
+        var file = document.querySelector('input[type=file]')['files'][0];
+
+        if (file == undefined) {
+            setTimeout(function() {
+                  popToast("danger", "kindly add an image");
+          }, 5);
+        }
+
+        var base64String = "";
+
+        var reader = new FileReader();
+
+        reader.onload = function () {
+            base64String = reader.result;
+            imageBase64Stringsep = base64String;
+
+            var image = base64String;
+
+             payload  = {
             _token: _token,
-             image: $("#image").val(),
+             image: base64String,
              crop:true
-        };
-        console.log($("#imageData").val());
+           };
 
-        document.getElementById('fullscreenLoaderMessage').innerText = 'Generating...';
-        document.getElementById('fullscreenLoader').classList.remove('hidden');
+           document.getElementById('fullscreenLoaderMessage').innerText = 'Loading...';
+           document.getElementById('fullscreenLoader').classList.remove('hidden');
 
         $.ajax({
            type:'POST',
@@ -91,11 +118,7 @@
                 }
                 if (response.status == "success") {
 
-                    $("#resultData").css('display','flex');
-
-                    var imageTag = '<img class="rounded-xl" src=" '+response.image+' " width=" ' +response.width+ ' " height="'+ response.height+' ">';
-
-                    $("#resultData").append(imageTag);
+                    document.getElementById("file-ip-1-preview").classList.add("hidden");
 
                     setTimeout(function() {
                       popToast("success", response.message);
@@ -109,11 +132,13 @@
                 setTimeout(function() {
                   popToast("danger", message);
                 }, 5);
-
-                errorTabForSubscription(message)
           },
 
         });
+
+        }
+        reader.readAsDataURL(file);
+
 
     });
 
@@ -139,6 +164,7 @@
     dropArea.addEventListener('drop', handleDrop, false)
 
   function handleDrop(e) {
+
     let dt = e.dataTransfer
     let files = dt.files
     file = files[0]
@@ -167,25 +193,19 @@
             let img = document.createElement('img')
             img.src = reader.result
 
-            document.getElementById('imageData').value == reader.result;
+
             document.getElementById('gallery').appendChild(img)
         }
    }
 
-   browse.addEventListener('click', function(){
-
-    const input = document.getElementById("image").val();
-
-        console.log(input);
-
-    input.addEventListener("change", function() {
-        const file = input.files
-        console.log(file);
-
-     })
-
-   })
-
+   function showPreview(event){
+  if(event.target.files.length > 0){
+    var src = URL.createObjectURL(event.target.files[0]);
+    var preview = document.getElementById("file-ip-1-preview");
+    preview.src = src;
+    preview.style.display = "block";
+  }
+}
 
 </script>
 

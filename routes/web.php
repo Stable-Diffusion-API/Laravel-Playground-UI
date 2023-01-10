@@ -24,3 +24,4 @@ Route::post('/stablediffusion', [PlaygroundController::class, 'stableDiffusion']
 Route::post('/dreambooth', [PlaygroundController::class, 'dreambooth'])->name('dreambooth');
 Route::post('/dreambooth-training', [PlaygroundController::class, 'dreamboothTraining'])->name('dreambooth-training');
 Route::post('/upload-image', [PlaygroundController::class, 'imageUpload'])->name('upload-image');
+Route::post('/allmodels', [PlaygroundController::class, 'publicModels'])->name('public-models');
