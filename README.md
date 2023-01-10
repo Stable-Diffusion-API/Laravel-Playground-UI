@@ -2,6 +2,7 @@
 Stable Diffusion Playground UI in Laravel PHP
 
 ![alt text](https://stablediffusionapi.com//storage/generations/playground.jpeg)
+
 ![alt text](https://stablediffusionapi.com//storage/generations/playground1.jpeg)
 
 
