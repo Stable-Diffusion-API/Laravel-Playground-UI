@@ -39,7 +39,7 @@
 
 
             </label>
-            <div class="flex flex-col justify-center items-center" id="gallery"></div>
+
             <div class="flex flex-col justify-center items-center p-2"><img class="hidden w-1/6"  id="file-ip-1-preview"></div>
 
         </div>
@@ -194,7 +194,9 @@
 
             var  _token = $("input[name='_token']").val();
 
-            document.getElementById('gallery').appendChild(img)
+            var preview = document.getElementById("file-ip-1-preview");
+            preview.src =  reader.result;
+            preview.style.display = "block";
 
             document.getElementById('submitForm').classList.add("hidden");
             document.getElementById('submitFormTwo').classList.remove("hidden");
