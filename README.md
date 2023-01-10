@@ -16,6 +16,8 @@ git clone https://github.com/Stable-Diffusion-API/Laravel-Playground-UI.git
 Navigate into the project directory and install Dependencies 
 ```
 composer install
+
+npm install
 ```
 
 Copy the content of env.example to .env.
@@ -27,6 +29,13 @@ cp .env.example .env
 Make sure to add your api key. You can get it from [Stable Diffusion API Website](https://stablediffusionapi.com/)
 ```
 STABLE_DIFFUSION_API_KEY=
+```
+
+Serve the Project
+```
+php artisan serve
+
+npm run dev
 ```
 
 
