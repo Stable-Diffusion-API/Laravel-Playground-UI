@@ -12,7 +12,7 @@ Clone the Project
 git clone https://github.com/Stable-Diffusion-API/Laravel-Playground-UI.git
 ```
 
-Install Dependencies 
+Navigate into the project directory and install Dependencies 
 ```
 composer install
 ```

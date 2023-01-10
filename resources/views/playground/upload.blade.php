@@ -34,7 +34,6 @@
                         <span id="browse" class="text-blue-600 underline">
                             <label for="file-ip-1">Browse</label>
                             <input type="file" class="hidden" id="file-ip-1" accept="image/*" onchange="showPreview(event);">
-
                     </span>
                 </span>
 
@@ -47,13 +46,11 @@
 
         <div id="generate"  class="w-full flex my-4 items-center justify-center mx-auto mb-3 space-y-4  sm:space-y-0">
             <button type="submit" id="submitForm" class="bg-blue-600 py-5 px-9 text-sm font-medium text-center text-white rounded-2xl border cursor-pointer">Upload</button>
+            <button type="button" id="submitFormTwo" class="hidden bg-blue-600 py-5 px-9 text-sm font-medium text-center text-white rounded-2xl border cursor-pointer">Upload</button>
          </div>
     </form>
 
 </div>
-
-
-
 
 
 
@@ -100,41 +97,41 @@
            document.getElementById('fullscreenLoaderMessage').innerText = 'Loading...';
            document.getElementById('fullscreenLoader').classList.remove('hidden');
 
-        $.ajax({
-           type:'POST',
-           url:"{{ route('upload-image') }}",
-           data: payload,
-           success:function(response){
+                $.ajax({
+                type:'POST',
+                url:"{{ route('upload-image') }}",
+                data: payload,
+                success:function(response){
 
-            document.getElementById('fullscreenLoader').classList.add('hidden');
+                    document.getElementById('fullscreenLoader').classList.add('hidden');
 
-                if(response.status == "processing"){
+                        if(response.status == "processing"){
 
-                 setTimeout(function() {
-                  popToast("success", response.message);
+                        setTimeout(function() {
+                        popToast("success", response.message);
 
-                }, 60);
+                        }, 60);
 
-                }
-                if (response.status == "success") {
+                        }
+                        if (response.status == "success") {
 
-                    document.getElementById("file-ip-1-preview").classList.add("hidden");
+                            document.getElementById("file-ip-1-preview").classList.add("hidden");
 
-                    setTimeout(function() {
-                      popToast("success", response.message);
-                       }, 60);
+                            setTimeout(function() {
+                            popToast("success", response.message);
+                            }, 60);
 
-                }
-           },
-           error: function(response, status, message) {
-            document.getElementById('fullscreenLoader').classList.add('hidden');
-            var message = response.responseJSON.message;
-                setTimeout(function() {
-                  popToast("danger", message);
-                }, 5);
-          },
+                        }
+                },
+                error: function(response, status, message) {
+                    document.getElementById('fullscreenLoader').classList.add('hidden');
+                    var message = response.responseJSON.message;
+                        setTimeout(function() {
+                        popToast("danger", message);
+                        }, 5);
+                },
 
-        });
+                });
 
         }
         reader.readAsDataURL(file);
@@ -168,7 +165,7 @@
     let dt = e.dataTransfer
     let files = dt.files
     file = files[0]
-    console.log(file);
+    // console.log(file);
     // ([...files]).forEach(uploadFile)
     previewFile(file)
       }
@@ -187,14 +184,63 @@
     }
 
     function previewFile(file) {
+
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = function() {
+
             let img = document.createElement('img')
             img.src = reader.result
 
+            var  _token = $("input[name='_token']").val();
 
             document.getElementById('gallery').appendChild(img)
+
+            document.getElementById('submitForm').classList.add("hidden");
+            document.getElementById('submitFormTwo').classList.remove("hidden");
+
+            $("#submitFormTwo").click(function(){
+
+            var payload  = { _token: _token, image: reader.result, crop:true };
+
+                    document.getElementById('fullscreenLoaderMessage').innerText = 'Loading...';
+                    document.getElementById('fullscreenLoader').classList.remove('hidden');
+
+                    $.ajax({
+                    type:'POST',
+                    url:"{{ route('upload-image') }}",
+                    data: payload,
+                    success:function(response){
+
+                        document.getElementById('fullscreenLoader').classList.add('hidden');
+
+                            if(response.status == "processing"){
+
+                            setTimeout(function() {
+                            popToast("success", response.message);
+
+                            }, 60);
+
+                            }
+                            if (response.status == "success") {
+
+                                setTimeout(function() {
+                                popToast("success", response.message);
+                                }, 60);
+
+                            }
+                    },
+                    error: function(response, status, message) {
+                        document.getElementById('fullscreenLoader').classList.add('hidden');
+                        var message = response.responseJSON.message;
+                            setTimeout(function() {
+                            popToast("danger", message);
+                            }, 5);
+                    },
+
+                    });
+            });
+
         }
    }
 
