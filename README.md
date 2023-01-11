@@ -39,8 +39,6 @@ STABLE_DIFFUSION_API_KEY=
 Serve the Project
 ```
 php artisan serve
-
-npm run dev
 ```
 
 
