@@ -26,6 +26,11 @@ Copy the content of env.example to .env.
 cp .env.example .env
 ```
 
+Generate APP key
+```
+php artisan key:generate
+```
+
 Make sure to add your api key. You can get it from [Stable Diffusion API Website](https://stablediffusionapi.com/)
 ```
 STABLE_DIFFUSION_API_KEY=
